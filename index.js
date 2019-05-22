@@ -1,12 +1,20 @@
 const express = require('express');
+const createError = require('http-errors');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
+
+const routes = require('./routes');
 const bodyParser = require('body-parser');
 
 const app = express();
+const port = 3000;
 
-app.set('view engine', 'ejs');
+app.use(cors());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+routes(app);
 
 // Connect to MongoDB
 mongoose
@@ -17,22 +25,10 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
-const Item = require('./models/Item');
-
-app.get('/', (req, res) => {
-  Item.find()
-    .then(items => res.render('index', { items }))
-    .catch(err => res.status(404).json({ msg: 'No items found' }));
+app.use((req, res, next) => {
+    return next(createError(404, 'Could not find your fucking file!'));
 });
 
-app.post('/item/add', (req, res) => {
-  const newItem = new Item({
-    name: req.body.name
-  });
-
-  newItem.save().then(item => res.redirect('/'));
+app.listen(port, ()=>{
+    console.log(`App listening on ${port}`);
 });
-
-const port = 3000;
-
-app.listen(port, () => console.log('Server running...'));

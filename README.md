@@ -1,20 +1,8 @@
-# Docker Node MongoDB Example
+## MERN Postcard Exchange App In Development
+This is a MERN stack app for an international postcard exchange. Each month participating users will be paired. Registered users can upload images of their postcards to the postcard gallery.
 
-> Simple example of a dockerized Node/Mongo app
+This project uses Express to create a token authenticated API that will be consumed by a React driven frontend client.
 
-## Quick Start
+## More to Come
+This project is still in development.
 
-```bash
-# Run in Docker
-docker-compose up
-# use -d flag to run in background
-
-# Tear down
-docker-compose down
-
-# To be able to edit files, add volume to compose file
-volumes: ['./:/usr/src/app']
-
-# To re-build
-docker-compose build
-```
